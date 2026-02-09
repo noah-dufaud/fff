@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>♥</title>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.locatecontrol@0.76.0/dist/L.Control.Locate.min.css" />
+
+    <style>
+
+        #map {
+
+            height: 900px;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <script src="https://unpkg.com/leaflet.locatecontrol@0.76.0/dist/L.Control.Locate.min.js"></script>
+
+    <script>
+
+        var map = L.map('map').setView([48.8566, 2.3522], 6);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
+            maxZoom: 19,
+
+            attribution: '© OpenStreetMap'
+
+        }).addTo(map);
+
+        var cities = L.layerGroup([
+
+            L.marker([48.8566, 2.3522]).bindPopup('Paris'),
+
+        ]);
+
+        var airports = L.layerGroup([
+        ]);
+
+        var landmarks = L.layerGroup([
+        ]);
+
+        var overlayMaps = {
+
+            "Cities": cities,
+
+        };
+
+        //L.control.layers(null, overlayMaps).addTo(map);
+
+        cities.addTo(map);
+
+        function animateMapTo(startPos, endPos, duration) {
+            return new Promise(resolve => {
+                const startTime = Date.now();
+                const line = L.polyline([startPos, startPos], {color: 'red'}).addTo(map);
+                
+                function update() {
+                    const progress = Math.min((Date.now() - startTime) / duration, 1);
+                    
+                    const lat = startPos[0] + (endPos[0] - startPos[0]) * progress;
+                    const lng = startPos[1] + (endPos[1] - startPos[1]) * progress;
+                    
+                    map.setView([lat, lng], map.getZoom());
+                    line.setLatLngs([startPos, [lat, lng]]); // Update la ligne
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    } else {
+                        resolve(line); // Retourne la ligne si tu veux la garder/supprimer
+                    }
+                }
+                
+                requestAnimationFrame(update);
+            });
+        }
+
+        function animateMapTo2(startPos, endPos, duration) {
+            return new Promise(resolve => {
+                const startTime = Date.now();
+                
+                function update() {
+                    const progress = Math.min((Date.now() - startTime) / duration, 1);
+                    
+                    const lat = startPos[0] + (endPos[0] - startPos[0]) * progress;
+                    const lng = startPos[1] + (endPos[1] - startPos[1]) * progress;
+                    
+                    map.setView([lat, lng], map.getZoom());
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    } else {
+                        resolve();
+                    }
+                }
+                
+                requestAnimationFrame(update);
+            });
+        }
+
+        // Utilisation bloquante avec async/await
+        async function demo() {
+            await animateMapTo([48.8566, 2.3522], [50.9375, 6.9603], 3000);
+            cities = L.layerGroup([
+                L.marker([50.9375,6.9603]).bindPopup('Cologne'),
+            ]);
+            cities.addTo(map);
+            await animateMapTo([50.9375, 6.9603], [51.0750865,13.1496335], 3500);
+            cities = L.layerGroup([
+                L.marker([51.0750865,13.1496335]).bindPopup('Dresden'),
+            ]);
+            cities.addTo(map);
+            await animateMapTo([51.0750865,13.1496335], [50.0598433,14.3005337], 1500);
+            cities = L.layerGroup([
+                L.marker([50.0598433,14.3005337]).bindPopup('Prague'),
+            ]);
+            cities.addTo(map);
+            await animateMapTo([50.0598433,14.3005337], [49.4362364,10.970514], 2000);
+            cities = L.layerGroup([
+
+                L.marker([49.4362364,10.970514]).bindPopup('Nuremberg'),
+
+            ]);
+            cities.addTo(map);
+            await animateMapTo([49.4362364,10.970514], [48.8566, 2.3522], 4000);
+
+            await animateMapTo2([48.8566, 2.3522], [49.5005311,8.3369251], 2000);
+            
+            map.setView(map.getCenter(), 5);
+
+            await new Promise(r => setTimeout(r, 2000));
+
+            document.body.style.opacity = 0;
+            document.body.style.transition = 'opacity 4s';
+            setTimeout(() => document.body.style.opacity = 0, 1);
+            setTimeout(() => window.location.href = "step3.html", 4000);
+        }
+
+        demo()
+
+    </script>
+
+</body>
+
+</html>

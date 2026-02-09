@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>♥</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe5f1 100%);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .container {
+            text-align: center;
+            color: #8b4367;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            margin: 0 0 20px 0;
+            color: #d4497d;
+        }
+
+        .date {
+            font-size: 1.5rem;
+            margin-bottom: 50px;
+            font-style: italic;
+        }
+
+        .city {
+            font-size: 2rem;
+            margin: 13px 0;
+            opacity: 0;
+            animation: fadeIn 0.8s forwards;
+        }
+
+        .arrow {
+            font-size: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.8s forwards;
+        }
+
+        .city:nth-child(1) { animation-delay: 0s; }
+        .arrow:nth-child(2) { animation-delay: .4s; }
+        .city:nth-child(3) { animation-delay: .8s; }
+        .arrow:nth-child(4) { animation-delay: 1.2s; }
+        .city:nth-child(5) { animation-delay: 1.6s; }
+        .arrow:nth-child(6) { animation-delay: 2s; }
+        .city:nth-child(7) { animation-delay: 2.4s; }
+        .arrow:nth-child(8) { animation-delay: 2.8s; }
+        .city:nth-child(9) { animation-delay: 3.2s; }
+        .arrow:nth-child(10) { animation-delay: 3.6s; }
+        .city:nth-child(11) { animation-delay: 4s; }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Toi & Moi</h1>
+        <div class="date">Du 4 au 11 mars</div>
+        
+        <div class="city">Paris</div>
+        <div class="arrow">↓</div>
+        <div class="city">Cologne</div>
+        <div class="arrow">↓</div>
+        <div class="city">Dresden</div>
+        <div class="arrow">↓</div>
+        <div class="city">Prague</div>
+        <div class="arrow">↓</div>
+        <div class="city">Nuremberg</div>
+    </div>
+</body>
+</html>
